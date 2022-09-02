@@ -4,14 +4,13 @@ function createDogListItem(dog) {
 
   li.className = "dogs-list__button";
   li.innerText = dog.name;
-  dogContainer.append(li)
-  
+  dogContainer.append(li);
+
   li.addEventListener("click", () => {
-    const myMain = document.querySelector(".main"); 
-    myMain.innerHTML = ''
-    
+    dogContainer.innerHTML = "";
+
     let card = createDogCard(dog);
-    dogContainer.append(card)
+    dogContainer.append(card);
   });
   return li;
 }
@@ -26,14 +25,10 @@ const createDogCardDesc = (bio) => {
   const div = document.createElement("div");
   div.className = "main__dog-section__desc";
 
-  //(2)
-  //TODO: Update this section to create new elements
-  //for the bio header and the bio text. Add those
-  //elements to the div.
   const header = document.createElement("h3");
-  header.innerText = 'Bio'
+  header.innerText = "Bio";
   const text = document.createElement("p");
-  text.innerText = bio
+  text.innerText = bio;
   div.append(header, text);
 
   return div;
@@ -47,7 +42,7 @@ function createDogCardBottomSection(dog) {
   div.className = "main__dog-section__btn";
 
   let dogBehave = dog.isGoodDog === true ? "Good Dog" : "Bad Dog!";
-  button.innerText = dogBehave
+  button.innerText = dogBehave;
 
   div.append(text, button);
   return div;
@@ -154,9 +149,63 @@ renderDogList(data);
 const formButton = document.querySelector(".dogs-list__button--add");
 const dogContainer = document.querySelector(".main");
 
-// (4)
-//TODO: Add an event listener on to form button so that
-//when the user clicks the button, the form is displayed.
-//the renderMainForm method will return an element that
-//contains the form, so you only need to add it to the
-//dogContainer and remove any existing children.
+formButton.addEventListener("click", () => {
+  dogContainer.innerHTML = "";
+  const section = createSection();
+
+  const titleNewDog = document.createElement("h2");
+  titleNewDog.innerText = "Add a new Dog";
+
+  const createDogForm = createForm();
+
+  dogContainer.append(section);
+  section.append(titleNewDog, createDogForm);
+});
+
+function createForm() {
+  const form = document.createElement("form");
+  form.className = "form";
+
+  const lableDogName = document.createElement("lable");
+  lableDogName.innerText = "Dog's name";
+  const inputDogName = document.createElement("input");
+  inputDogName.type = "text";
+  inputDogName.setAttribute("id", "name");
+  inputDogName.setAttribute("name", "name");
+
+  const labelDogImg = document.createElement("lable");
+  labelDogImg.innerText = "Dog's picture";
+  const inputDogImg = document.createElement("input");
+  inputDogImg.type = "img";
+  inputDogImg.setAttribute("id", "image");
+  inputDogImg.setAttribute("name", "image");
+
+  const lableDogBio = document.createElement("lable");
+  lableDogBio.innerText = "Dog's bio";
+  const inputDogBio = document.createElement("textarea");
+  inputDogBio.type = "text";
+  inputDogBio.setAttribute("id", "bio");
+  inputDogBio.setAttribute("name", "bio");
+  inputDogBio.setAttribute("rows", "5")
+
+  const submit = document.createElement('input')
+  submit.type = 'submit'
+  submit.setAttribute("id", "submit");
+  submit.setAttribute("name", "submit");
+  submit.setAttribute("value", "Let\'s add a dog!");
+  submit.setAttribute("class", "form__button");
+
+
+
+  form.append(
+    lableDogName,
+    inputDogName,
+    labelDogImg,
+    inputDogImg,
+    lableDogBio,
+    inputDogBio,
+    submit
+  );
+
+  return form;
+}
