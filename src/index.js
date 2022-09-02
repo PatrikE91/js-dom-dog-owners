@@ -7,9 +7,11 @@ function createDogListItem(dog) {
   dogContainer.append(li)
   
   li.addEventListener("click", () => {
-    const mainDogSection = document.querySelector(".main__dog-section");
-    mainDogSection.innerHTML = '';
-    createDogCard(dog);
+    const myMain = document.querySelector(".main"); 
+    myMain.innerHTML = ''
+    
+    let card = createDogCard(dog);
+    dogContainer.append(card)
   });
   return li;
 }
@@ -29,7 +31,9 @@ const createDogCardDesc = (bio) => {
   //for the bio header and the bio text. Add those
   //elements to the div.
   const header = document.createElement("h3");
+  header.innerText = 'Bio'
   const text = document.createElement("p");
+  text.innerText = bio
   div.append(header, text);
 
   return div;
@@ -60,7 +64,7 @@ const createDogCard = (dog) => {
   const desc = createDogCardDesc(dog.bio);
   const bottomSection = createDogCardBottomSection(dog);
 
-  section.append(header, desc, bottomSection);
+  section.append(header, img, desc, bottomSection);
 
   return section;
 };
