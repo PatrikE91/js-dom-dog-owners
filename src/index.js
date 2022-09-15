@@ -38,11 +38,27 @@ function createDogCardBottomSection(dog) {
   const button = document.createElement("button");
   const text = document.createElement("p");
   const div = document.createElement("div");
-
   div.className = "main__dog-section__btn";
 
-  let dogBehave = dog.isGoodDog === true ? "Good Dog" : "Bad Dog!";
+  let dogBehave = dog.isGoodDog === true ? "Bad Dog!" : "Good Dog!";
+  let naughtyDog = dog.isGoodDog === true ? "<em>Is naughty?</em> no!" : "<em>Is naughty?</em> yes!"
+  
   button.innerText = dogBehave;
+  text.innerHTML = naughtyDog
+  
+  button.addEventListener('click', () => {
+    dog.isGoodDog = !dog.isGoodDog
+    if(dog.isGoodDog === true){
+      button.innerText = "Bad Dog!"
+      text.innerHTML = "<em>Is naughty?</em> no!"
+    } 
+    else{
+      button.innerText = "Good Dog!"
+      text.innerHTML = "<em>Is naughty?</em> yes!"
+    } 
+    
+    console.log(dog.isGoodDog)
+  })
 
   div.append(text, button);
   return div;
@@ -78,12 +94,6 @@ function createForm() {
 
   form.className = "form";
   submitInput.className = "form__button";
-
-  //(5)
-  //TODO: Add an event listener on to the form to capture the
-  //submit event. In the submit event, add a item  to the
-  //list of dogs at the top of the page, and add a new object
-  //in to the dogs array with the data captured from the form.
 
   form.append(
     nameLabel,
@@ -160,6 +170,7 @@ formButton.addEventListener("click", () => {
 
   dogContainer.append(section);
   section.append(titleNewDog, createDogForm);
+  console.log("test form");
 });
 
 function createForm() {
@@ -186,16 +197,43 @@ function createForm() {
   inputDogBio.type = "text";
   inputDogBio.setAttribute("id", "bio");
   inputDogBio.setAttribute("name", "bio");
-  inputDogBio.setAttribute("rows", "5")
+  inputDogBio.setAttribute("rows", "5");
 
-  const submit = document.createElement('input')
-  submit.type = 'submit'
+  const submit = document.createElement("input");
+  submit.type = "submit";
   submit.setAttribute("id", "submit");
   submit.setAttribute("name", "submit");
-  submit.setAttribute("value", "Let\'s add a dog!");
-  submit.setAttribute("class", "form__button");
+  submit.setAttribute("value", "Let's add a dog!");
+  submit.className = "form__button";
 
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
+    
+    data.id++;
+    data.unshift({
+      // id: data[data.lenght -1].id ++,
+      id: 1,
+      name: inputDogName.value,
+      bio: inputDogBio.value,
+      isGoodDog: true,
+      image: inputDogImg.value,
+    });
+
+    const li = document.createElement("li");
+    const listContainer = document.querySelector(".dogs-list__button--add");
+
+    li.className = "dogs-list__button";
+    li.innerText = inputDogName.value;
+
+    listContainer.after(li);
+    li.addEventListener('click', () => {
+      dogContainer.innerHTML = "";
+  
+      let card = createDogCard(data[0]);
+      dogContainer.append(card);
+    })
+  });
 
   form.append(
     lableDogName,
